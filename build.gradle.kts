@@ -12,7 +12,15 @@ version = modVersion
 val mavenGroup: String by project
 group = mavenGroup
 minecraft {}
-repositories {}
+repositories {
+    maven { setUrl("https://ladysnake.jfrog.io/artifactory/mods");name = "Ladysnake Libs" }
+    maven { setUrl("https://maven.cafeteria.dev");content { includeGroup("net.adriantodt.fabricmc") } }
+    maven { setUrl("https://maven.jamieswhiteshirt.com/libs-release");content { includeGroup ("com.jamieswhiteshirt") } }
+    maven { setUrl("https://jitpack.io") }
+    maven { setUrl("https://maven.shedaniel.me/") }
+    maven { setUrl("https://maven.terraformersmc.com/") }
+    maven { setUrl("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/") }
+}
 dependencies {
     val minecraftVersion: String by project
     minecraft("com.mojang:minecraft:$minecraftVersion")
@@ -24,6 +32,11 @@ dependencies {
     modImplementation("net.fabricmc.fabric-api:fabric-api:$fabricVersion")
     val fabricKotlinVersion: String by project
     modImplementation("net.fabricmc:fabric-language-kotlin:$fabricKotlinVersion")
+    val apoliVersion: String by project
+    modImplementation("com.github.apace100:apoli:${apoliVersion}")
+    include("com.github.apace100:apoli:${apoliVersion}")
+    val geckoLibVersion: String by project
+    modImplementation("software.bernie.geckolib:geckolib-fabric-1.17:${geckoLibVersion}:dev")
 }
 tasks {
     val javaVersion = JavaVersion.VERSION_16

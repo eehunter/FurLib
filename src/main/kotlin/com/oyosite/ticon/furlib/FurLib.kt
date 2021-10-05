@@ -1,8 +1,12 @@
 package com.oyosite.ticon.furlib
+import com.oyosite.ticon.furlib.power.FLPowerFactories
 import net.fabricmc.api.ModInitializer
-object FurLib: ModInitializer {
-    private const val MOD_ID = "furlib"
-    override fun onInitialize() {
+import net.minecraft.util.Identifier
 
+object FurLib: ModInitializer {
+    const val MODID = "furlib"
+    override fun onInitialize() {
+        FLPowerFactories()
     }
+    fun identifier(id:String):Identifier{ return Identifier(MODID,id) }
 }
