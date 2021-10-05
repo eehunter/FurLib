@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "furlib",
+  "version": "${version}",
+  "name": "Fur Lib",
+  "description": "A Furry mod.",
+  "authors": [
+    "Ned Hunter",
+    "Cooki",
+    "Toaster"
+  ],
+  "contact": {
+    "homepage": "https://example.com/",
+    "issues": "https://example.com/",
+    "sources": "https://example.com/"
+  },
+  "license": "MIT",
+  "icon": "assets/furlib/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      {
+        "adapter": "kotlin",
+        "value": "com.oyosite.ticon.furlib.FurLib"
+      }
+    ]
+  },
+  "mixins": [
+    "furlib.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.7",
+    "fabric": "*",
+    "fabric-language-kotlin": ">=1.6.5+kotlin.1.5.31",
+    "minecraft": "1.17.x",
+    "java": ">=16"
+  }
+}
