@@ -35,6 +35,8 @@ dependencies {
     val apoliVersion: String by project
     modImplementation("com.github.apace100:apoli:${apoliVersion}")
     include("com.github.apace100:apoli:${apoliVersion}")
+    val originsVersion: String by project
+    modRuntime("com.github.apace100:origins-fabric:${originsVersion}")
     val geckoLibVersion: String by project
     modImplementation("software.bernie.geckolib:geckolib-fabric-1.17:${geckoLibVersion}:dev")
 }

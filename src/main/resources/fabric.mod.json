@@ -23,6 +23,12 @@
         "adapter": "kotlin",
         "value": "com.oyosite.ticon.furlib.FurLib"
       }
+    ],
+    "client": [
+      {
+        "adapter": "kotlin",
+        "value": "com.oyosite.ticon.furlib.FurLibClient"
+      }
     ]
   },
   "mixins": [
