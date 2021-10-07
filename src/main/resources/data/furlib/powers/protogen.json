@@ -1,0 +1,20 @@
+{
+  "type": "furlib:specie",
+  "model": "furlib:geo/protogen_model.geo.json",
+  "textures": [
+    {
+      "tex": "furlib:textures/model/protogen_lights",
+      "r": 50,
+      "illuminate": true
+    },
+    {
+      "tex": "furlib:textures/model/protogen_fur",
+      "r": 200,
+      "g": 200,
+      "b": 200
+    },
+    {
+      "tex": "furlib:textures/model/protogen_trim"
+    }
+  ]
+}

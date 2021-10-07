@@ -1,0 +1,10 @@
+{
+  "powers": [
+    "furlib:protogen"
+  ],
+  "icon": {
+    "item": "minecraft:iron_ingot"
+  },
+  "order": 1,
+  "impact": 0
+}
