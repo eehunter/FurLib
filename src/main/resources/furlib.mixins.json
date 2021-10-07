@@ -2,13 +2,13 @@
   "required": true,
   "package": "com.oyosite.ticon.furlib.mixins",
   "compatibilityLevel": "JAVA_16",
-  "injectors": {
-    "defaultRequire": 1
-  },
   "mixins": [
 
   ],
   "client": [
     "PlayerEntityRendererMixin"
-  ]
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
 }

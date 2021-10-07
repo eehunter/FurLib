@@ -3,18 +3,18 @@
   "model": "furlib:geo/protogen_model.geo.json",
   "textures": [
     {
-      "tex": "furlib:textures/model/protogen_lights",
+      "tex": "furlib:textures/models/protogen_lights.png",
       "r": 50,
       "illuminate": true
     },
     {
-      "tex": "furlib:textures/model/protogen_fur",
+      "tex": "furlib:textures/models/protogen_fur.png",
       "r": 200,
       "g": 200,
       "b": 200
     },
     {
-      "tex": "furlib:textures/model/protogen_trim"
+      "tex": "furlib:textures/models/protogen_trim.png"
     }
   ]
 }
