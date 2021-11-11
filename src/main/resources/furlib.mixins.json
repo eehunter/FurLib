@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "com.oyosite.ticon.furlib.mixins",
+  "package": "com.oyosite.ticon.furlib.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
 
