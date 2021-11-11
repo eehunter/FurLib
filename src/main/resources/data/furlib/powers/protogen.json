@@ -4,22 +4,16 @@
   "textures": [
     {
       "tex": "furlib:textures/models/protogen_lights.png",
-      "r": 50,
-      "g": 50,
-      "b": 50,
+      "col": [50,50,50,255,255,255,255,255],
       "illuminate": true
     },
     {
       "tex": "furlib:textures/models/protogen_fur.png",
-      "r": 50,
-      "g": 50,
-      "b": 50
+      "col": [50,50,50,255,255,255,255,255]
     },
     {
       "tex": "furlib:textures/models/protogen_trim.png",
-      "r": 50,
-      "g": 50,
-      "b": 50
+      "col": [50,50,50,255,255,255,255,255]
     }
   ]
 }

@@ -6,22 +6,25 @@ import io.github.apace100.calio.data.SerializableData as SD
 import io.github.apace100.calio.data.SerializableData.Instance as SDI
 import com.oyosite.ticon.furlib.FurLib.RAND
 
-class TexController(val tex:Identifier, var r:Int, var g:Int, val b:Int, val a:Int, val illuminate:Boolean = false){
+@Suppress("UNCHECKED_CAST")
+class TexController(val tex:Identifier, val r:Int, val g:Int, val b:Int, val a:Int, val illuminate:Boolean = false){
     constructor(data:SDI) : this(
         data.getId("tex"),
-        if(!data.isPresent("rm")||data.getInt("rm")<=data.getInt("r"))data.getInt("r")else(RAND.nextInt(data.getInt("r"),data.getInt("rm"))),
-        if(!data.isPresent("gm")||data.getInt("gm")<=data.getInt("g"))data.getInt("g")else(RAND.nextInt(data.getInt("g"),data.getInt("gm"))),
-        if(!data.isPresent("bm")||data.getInt("bm")<=data.getInt("b"))data.getInt("b")else(RAND.nextInt(data.getInt("b"),data.getInt("bm"))),
-        if(!data.isPresent("am")||data.getInt("am")<=data.getInt("a"))data.getInt("a")else(RAND.nextInt(data.getInt("a"),data.getInt("am"))),
+        extractCol(0,data),
+        extractCol(1,data),
+        extractCol(2,data),
+        extractCol(3,data),
         data.getBoolean("illuminate")
     )
     constructor(nbt:NbtCompound) : this(Identifier(nbt.getString("tex")),nbt.getInt("r"),nbt.getInt("g"),nbt.getInt("b"),nbt.getInt("a"),nbt.getBoolean("illuminate"))
     companion object {
+        private fun extractCol(index:Int,data:SDI) = extractCol(index, data.get("col")!! as List<Int>)
+        private fun extractCol(index:Int, col:List<Int>):Int{
+            return if(col.size<index-1) 255 else if(col.size>=index+4) if(col[index]>=col[index+4]) col[index] else RAND.nextInt(col[index],col[index+4]) else col[index]
+        }
         fun toData(format:SD,tc:TexController):SDI{
-            val sdi:SDI = format.Instance();
-            //sdi["tex"]=tc.tex;sdi["r"]=tc.r;sdi["g"]=tc.g;sdi["b"]=tc.b;sdi["a"]=tc.a;sdi["illuminate"]=tc.illuminate;
-            with(tc){ mapOf("tex" to tex, "r" to r, "g" to g, "b" to b, "a" to a, "illuminate" to illuminate, "rm" to r, "gm" to g, "bm" to b, "am" to a) }.entries.forEach{sdi[it.key]=it.value}
-
+            val sdi:SDI = format.Instance()
+            with(tc){ sdi["tex"]=tex;sdi["col"]=listOf(r,g,b,a,r,g,b,a);sdi["illuminate"]=illuminate }
             return sdi
         }
     }
