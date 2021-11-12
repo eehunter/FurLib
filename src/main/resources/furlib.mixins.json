@@ -3,7 +3,6 @@
   "package": "com.oyosite.ticon.furlib.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
-
   ],
   "client": [
     "PlayerEntityRendererMixin"

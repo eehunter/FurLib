@@ -20,8 +20,7 @@ class SpeciePower(t:PowerType<*>, entity:LivingEntity, private val id:Identifier
     fun getTextureLocation(t:Int = currentTexIndex):Identifier{return texControllers[t].tex}
     fun getAnimFileLocation():Identifier?{return null}
     override fun fromTag(nbt: NbtElement?) {
-        if (nbt !is NbtCompound) return
-        if (!nbt.contains("tex")) return
+        if (nbt !is NbtCompound || !nbt.contains("tex")) return
         val tex = nbt.getCompound("tex")
         texControllers = List(tex.getInt("len")) { i -> TexController(tex.getCompound(i.toString())) }
     }

@@ -33,14 +33,14 @@ class SpecieFeatureRenderer<E:LivingEntity> : BipedEntityModel<E>(getModelData(D
     private var gmp = GMP()
     override fun getGeoModelProvider(): GeoModelProvider<SpeciePower> { return gmp }
     override fun getTextureLocation(instance: SpeciePower?): Identifier { return FurLib.identifier("none") }
-    fun render (stack: MatrixStack,vcp: VertexConsumerProvider,light: Int,entity:E,ctxModel:BipedEntityModel<E>,sp: SpeciePower, limbAngle: Float, limbDistance: Float, tickDelta: Float) {
+    fun render (stack: MatrixStack,vcp: VertexConsumerProvider,light: Int,entity:E,ctxModel:BipedEntityModel<E>,sp: SpeciePower, limbAngle: Float, limbDistance: Float, tickDelta: Float, visPredicate: (String) -> Boolean = {true}) {
         stack.push()
         stack.translate(0.0, 24 / 16.0, 0.0)
         stack.scale(-1.0f, -1.0f, 1.0f)
         val model: GeoModel = gmp.getModel(sp.getModelLocation())
         val animEvent:AnimationEvent<SpeciePower> = AnimationEvent(sp,limbAngle,limbDistance,tickDelta,false,listOf())
         gmp.setLivingAnimations(sp, this.getUniqueID(sp), animEvent);
-        fitToBiped(ctxModel)
+        fitToBiped(ctxModel,visPredicate)
         for (tex in sp.texControllers) {
             MinecraftClient.getInstance().textureManager.bindTexture(tex.tex)
             val vc: VertexConsumer = vcp.getBuffer(RenderLayer.getEntityCutoutNoCull(tex.tex))
@@ -49,21 +49,23 @@ class SpecieFeatureRenderer<E:LivingEntity> : BipedEntityModel<E>(getModelData(D
         }
         stack.pop()
     }
-    private fun fitBoneToBiped(bone: String?, yOffset: Int, xOffset: Int, copyFrom: ModelPart, modelProvider: AnimatedGeoModel<*>) {
+    private fun fitBoneToBiped(bone: String?, yOffset: Int, xOffset: Int, copyFrom: ModelPart, modelProvider: AnimatedGeoModel<*>, p:(String)->Boolean) {
         if (bone == null) return
         val iBone = modelProvider.getBone(bone)
+        iBone.isHidden = !p(bone)
+        if(iBone.isHidden) return
         GeoUtils.copyRotations(copyFrom, iBone)
         iBone.positionX = copyFrom.pivotX + xOffset
         iBone.positionY = yOffset - copyFrom.pivotY
         iBone.positionZ = copyFrom.pivotZ
     }
-    private fun fitToBiped(ctxModel: BipedEntityModel<E>) {
-        fitBoneToBiped(this.headBone, 0, 0, ctxModel.head, gmp)
-        fitBoneToBiped(this.bodyBone, 0, 0, ctxModel.body, gmp)
-        fitBoneToBiped(this.rightArmBone, 2, 5, ctxModel.rightArm, gmp)
-        fitBoneToBiped(this.leftArmBone, 2, -5, ctxModel.leftArm, gmp)
-        fitBoneToBiped(this.rightLegBone, 12, 2, ctxModel.rightLeg, gmp)
-        fitBoneToBiped(this.leftLegBone, 12, -2, ctxModel.leftLeg, gmp)
+    private fun fitToBiped(ctxModel: BipedEntityModel<E>, p:(String)->Boolean) {
+        fitBoneToBiped(this.headBone, 0, 0, ctxModel.head, gmp,p)
+        fitBoneToBiped(this.bodyBone, 0, 0, ctxModel.body, gmp,p)
+        fitBoneToBiped(this.rightArmBone, 2, 5, ctxModel.rightArm, gmp,p)
+        fitBoneToBiped(this.leftArmBone, 2, -5, ctxModel.leftArm, gmp,p)
+        fitBoneToBiped(this.rightLegBone, 12, 2, ctxModel.rightLeg, gmp,p)
+        fitBoneToBiped(this.leftLegBone, 12, -2, ctxModel.leftLeg, gmp,p)
     }
     private class GMP:AnimatedGeoModel<SpeciePower>() {
         override fun getModelLocation(sp: SpeciePower): Identifier { return sp.getModelLocation() }

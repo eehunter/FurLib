@@ -16,9 +16,7 @@ import java.util.function.BiFunction
 
 object FLPowerFactories {
     operator fun invoke() {
-        register(PowerFactory(FurLib.identifier("specie"), SDKotlin()("model", SerializableDataTypes.IDENTIFIER)("textures",FLSerializableDataTypes.TEX_CONTROLLERS)) { data: SerializableData.Instance ->
-            BiFunc(data)//BiFunction { type: PowerType<SpeciePower>, entity: LivingEntity -> SpeciePower(type, entity, data.getId("model"), data["textures"] as List<TexController>) }
-        })
+        register(PowerFactory(FurLib.identifier("specie"), SDKotlin()("model", SerializableDataTypes.IDENTIFIER)("textures",FLSerializableDataTypes.TEX_CONTROLLERS)) { data: SerializableData.Instance -> BiFunc(data) })
     }
     private fun register(serializer: PowerFactory<*>) {
         Registry.register(ApoliRegistries.POWER_FACTORY, serializer.serializerId, serializer)
