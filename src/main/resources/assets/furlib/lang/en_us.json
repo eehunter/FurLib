@@ -1,5 +1,9 @@
 {
   "origin.furlib.protogen.name": "Protogen",
   "origin.furlib.protogen.description": "A sentient toaster. Beep boop.",
-  "layer.furlib.species.name": "Species"
+  "layer.furlib.species.name": "Species",
+  "furlib.set_color.success": "Successfully changed color for texture %s from %s to %s",
+  "furlib.get_color.success": "Color for %s is %s",
+  "furlib.set_color.invalid_texture": "Invalid texture alias: %s",
+  "furlib.get_color.invalid_texture": "Invalid texture alias: %s"
 }

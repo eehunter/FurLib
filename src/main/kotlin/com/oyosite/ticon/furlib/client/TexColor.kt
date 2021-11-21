@@ -41,7 +41,7 @@ class TexColor(color:List<UByte>) {
                 val c1 = parseColor(arr[1])
                 //println(arr[1])
                 col = List(4){ if (c1[it]>col[it]) (col[it]+rand.nextInt((c1[it]-col[it]).toInt()).toUInt()).toUByte() else col[it] }
-                println(col.joinToString(transform = UByte::toString))
+                //println(col.joinToString(transform = UByte::toString))
             }
             return col
         }

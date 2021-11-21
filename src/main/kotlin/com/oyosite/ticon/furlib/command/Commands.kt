@@ -31,6 +31,7 @@ object Commands:CommandRegistrationCallback {
         dispatcher.register(cmd)
     }
     init {
+        commands.add(literal("getColor").requires(Predicate(::hasSpeciePower)).then(argument("texture",StringArgumentType.string()).suggests(SuggestionProvider(::texSuggestion)).executes(Command(::getColor))))
         commands.add(literal("setColor").requires(Predicate(::hasSpeciePower)).then(argument("texture",StringArgumentType.string()).suggests(SuggestionProvider(::texSuggestion)).then(argument("color",StringArgumentType.string()).executes(Command(::setColor)))))
     }
     private fun texSuggestion(ctx:CommandContext<ServerCommandSource>, builder:SuggestionsBuilder): CompletableFuture<Suggestions>? {
@@ -41,17 +42,26 @@ object Commands:CommandRegistrationCallback {
         if(src.entity == null)return false
         return PowerHolderComponent.KEY.get(src.entity!!).getPowers(SpeciePower::class.java).isNotEmpty()
     }
+    private fun getColor(ctx:CommandContext<ServerCommandSource>):Int{
+        val entity = ctx.source.entity!!
+        val tex = ctx.getArgument("texture", String::class.java)
+        val specie = PowerHolderComponent.KEY.get(entity).getPowers(SpeciePower::class.java)[0]
+        if (specie.texControllers.map { it.alias }.none(tex::equals)) throw SimpleCommandExceptionType(TranslatableText("furlib.get_color.invalid_texture", tex)).create()
+        val texCtrl = specie.texControllers.find {it.alias == tex}!!
+        ctx.source.sendFeedback(TranslatableText("furlib.get_color.success", tex, texCtrl.col.toString()), false)
+        return 1
+    }
     private fun setColor(ctx:CommandContext<ServerCommandSource>):Int{
         val entity = ctx.source.entity!!
         val tex = ctx.getArgument("texture", String::class.java)
         val specie = PowerHolderComponent.KEY.get(entity).getPowers(SpeciePower::class.java)[0]
-        if (specie.texControllers.map { it.alias }.none(tex::equals)) throw SimpleCommandExceptionType(TranslatableText("furlib.set_color.invalid_texture")).create()
+        if (specie.texControllers.map { it.alias }.none(tex::equals)) throw SimpleCommandExceptionType(TranslatableText("furlib.set_color.invalid_texture", tex)).create()
         val texCtrl = specie.texControllers.find {it.alias == tex}!!
         val oldCol = texCtrl.col.toString()
         val col = TexColor.parseColor(ctx.getArgument("color",String::class.java))
         texCtrl.col.copy(col)
         PowerHolderComponent.syncPower(entity, specie.type)
-        ctx.source.sendFeedback(LiteralText("Successfully changed color for texture \""+tex+"\" from "+oldCol+" to "+texCtrl.col.toString()), false)
+        ctx.source.sendFeedback(TranslatableText("furlib.set_color.success",tex,oldCol,texCtrl.col.toString()), false)
         return 1
     }
 }
