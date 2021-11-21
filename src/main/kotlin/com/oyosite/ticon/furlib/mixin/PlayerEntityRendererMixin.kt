@@ -2,7 +2,6 @@ package com.oyosite.ticon.furlib.mixin
 
 import com.oyosite.ticon.furlib.client.SpecieFeature
 import com.oyosite.ticon.furlib.power.SpeciePower
-import com.oyosite.ticon.furlib.util.MixinUtils
 import io.github.apace100.apoli.component.PowerHolderComponent
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -29,9 +28,9 @@ import net.minecraft.client.render.entity.model.PlayerEntityModel as PEM
 abstract class PlayerEntityRendererMixin(ctx: CRFC, model:PEM<ACPE>, shadowRadius:Float): LivingEntityRenderer<ACPE, PEM<ACPE>>(ctx, model, shadowRadius) {
 
     @Shadow abstract fun setModelPose(player:ACPE)
-    private var specieFeature_:SpecieFeature<ACPE>? = null
+    private var _specieFeature:SpecieFeature<ACPE>? = null
     private val specieFeature:SpecieFeature<ACPE>
-        get() {return specieFeature_!!}
+        get() {return _specieFeature!!}
 
     @Inject(method = ["setModelPose(Lnet/minecraft/client/network/AbstractClientPlayerEntity;)V"], at = [At("TAIL")], cancellable = true)
     open fun iSetModelPose(p: ACPE, info: CallbackInfo?) {
@@ -48,15 +47,15 @@ abstract class PlayerEntityRendererMixin(ctx: CRFC, model:PEM<ACPE>, shadowRadiu
         pem.leaningPitch = 0.0f
         pem.setAngles(player, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f)
         arm.pitch = 0f
-        specieFeature.render(matrices, vertexConsumers, light, player, 0f, 0f, 0f, 0f, 0f, 0f, if (arm == pem.leftArm) MixinUtils.leftArmString else MixinUtils.rightArmString)
+        specieFeature.render(matrices, vertexConsumers, light, player, 0f, 0f, 0f, 0f, 0f, 0f, (if (arm == pem.leftArm) "leftArm" else "rightArm")::equals)
         ci?.cancel()
     }
 
     @Suppress("UNCHECKED_CAST")
     @Inject(at = [At("RETURN")], method = ["<init>(Lnet/minecraft/client/render/entity/EntityRendererFactory\$Context;Z)V"])
     open fun init(ctx: EntityRendererFactory.Context?, slim: Boolean, ci: CallbackInfo?) {
-        specieFeature_ = SpecieFeature(this as FeatureRendererContext<ACPE, BipedEntityModel<ACPE>>)
-        addFeature(specieFeature_ as FeatureRenderer<ACPE, PEM<ACPE>>)
+        _specieFeature = SpecieFeature(this as FeatureRendererContext<ACPE, BipedEntityModel<ACPE>>)
+        addFeature(_specieFeature as FeatureRenderer<ACPE, PEM<ACPE>>)
     }
 
 

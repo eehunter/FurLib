@@ -45,7 +45,7 @@ class SpecieFeatureRenderer<E:LivingEntity> : BipedEntityModel<E>(getModelData(D
             MinecraftClient.getInstance().textureManager.bindTexture(tex.tex)
             val vc: VertexConsumer = vcp.getBuffer(RenderLayer.getEntityCutoutNoCull(tex.tex))
             val renderType = getRenderType(sp, tickDelta, stack, vcp, vc, light, tex.tex)
-            render(model, sp, tickDelta, renderType, stack, vcp, vc, if (tex.illuminate) 15728640 else light, OverlayTexture.DEFAULT_UV, tex.r/255f, tex.g/255f, tex.b/255f, tex.a/255f)
+            render(model, sp, tickDelta, renderType, stack, vcp, vc, if (tex.illuminate) 15728640 else light, OverlayTexture.DEFAULT_UV, tex.col.r.toFloat()/255f, tex.col.g.toFloat()/255f, tex.col.b.toFloat()/255f, tex.col.a.toFloat()/255f)
         }
         stack.pop()
     }
