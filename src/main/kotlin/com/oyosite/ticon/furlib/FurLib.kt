@@ -4,10 +4,12 @@ import com.oyosite.ticon.furlib.power.FLPowerFactories
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback
 import net.minecraft.util.Identifier
+import software.bernie.geckolib3.GeckoLib
 
 object FurLib: ModInitializer {
     const val MODID = "furlib"
     override fun onInitialize() {
+        GeckoLib.initialize();
         FLPowerFactories()
         CommandRegistrationCallback.EVENT.register(Commands)
     }

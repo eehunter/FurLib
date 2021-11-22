@@ -39,6 +39,8 @@
     "fabric": "*",
     "fabric-language-kotlin": ">=1.6.5+kotlin.1.5.31",
     "minecraft": "1.17.x",
-    "java": ">=16"
+    "java": ">=16",
+    "apoli": ">=2.0.5",
+    "geckolib3": ">=3.0.13"
   }
 }
