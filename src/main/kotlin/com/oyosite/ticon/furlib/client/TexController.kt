@@ -15,10 +15,6 @@ class TexController(val tex:Identifier, val col:TexColor, val illuminate:Boolean
     )
     constructor(nbt:NbtCompound) : this(Identifier(nbt.getString("tex")), TexColor.fromNbt(nbt),nbt.getBoolean("illuminate"), nbt.getString("alias"))
     companion object {
-        //private fun extractCol(index:Int,data:SDI) = extractCol(index, data.get("col")!! as List<Int>)
-        //private fun extractCol(index:Int, col:List<Int>):Int{
-        //    return if(col.size<=index) 255 else if(col.size>index+4) if(col[index]>=col[index+4]) col[index] else RAND.nextInt(col[index],col[index+4]) else col[index]
-        //}
         fun toData(format:SD,tc:TexController):SDI{
             val sdi:SDI = format.Instance()
             with(tc){ sdi["tex"]=tex;sdi["col"]=col;sdi["illuminate"]=illuminate;sdi["alias"]=alias }

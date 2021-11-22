@@ -17,7 +17,6 @@ import io.github.apace100.apoli.component.PowerHolderComponent
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.command.CommandManager.*
-import net.minecraft.text.LiteralText
 import net.minecraft.text.TranslatableText
 import java.util.concurrent.CompletableFuture
 import java.util.function.Predicate

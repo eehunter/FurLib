@@ -35,19 +35,14 @@ class TexColor(color:List<UByte>) {
             val arr = str.split(" ")
             val c = arr[0]
             var col:List<UByte> = parseColor(c)
-            //println(c)
-            //println(col.joinToString(transform = UByte::toString))
             if(arr.size>1){
                 val c1 = parseColor(arr[1])
-                //println(arr[1])
                 col = List(4){ if (c1[it]>col[it]) (col[it]+rand.nextInt((c1[it]-col[it]).toInt()).toUInt()).toUByte() else col[it] }
-                //println(col.joinToString(transform = UByte::toString))
             }
             return col
         }
         fun parseColor(str:String):List<UByte>{
             val i = str.toInt(16)
-            //println(str.length)
             return when(str.length){
                 8->listOf(i shr 24, i shr 16, i shr 8, i)
                 6->listOf(i shr 16, i shr 8, i, 255)
