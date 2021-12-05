@@ -35,12 +35,12 @@
     "furlib.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.11.7",
+    "fabricloader": ">=0.12.6",
     "fabric": "*",
-    "fabric-language-kotlin": ">=1.6.5+kotlin.1.5.31",
-    "minecraft": "1.17.x",
-    "java": ">=16",
-    "apoli": ">=2.0.5",
-    "geckolib3": ">=3.0.13"
+    "fabric-language-kotlin": ">=1.7.0+kotlin.1.6.0",
+    "minecraft": ">=1.18",
+    "java": ">=17",
+    "apoli": ">=2.2.0",
+    "geckolib3": ">=3.0.22"
   }
 }

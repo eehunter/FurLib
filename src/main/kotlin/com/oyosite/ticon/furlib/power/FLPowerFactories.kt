@@ -24,7 +24,7 @@ object FLPowerFactories {
     private class BiFunc(val data: SerializableData.Instance):BiFunction<PowerType<SpeciePower>,LivingEntity?,SpeciePower?>{
         override fun apply(type: PowerType<SpeciePower>, entity: LivingEntity?): SpeciePower? {
             try {
-                if (entity!=null) return SpeciePower(type, entity, data.getId("model"), data["textures"] as List<TexController>)
+                if (entity!=null) return SpeciePower(type, entity, data.getId("model"), data["textures"])
             }catch (e:Exception){e.printStackTrace()}
             return null
         }

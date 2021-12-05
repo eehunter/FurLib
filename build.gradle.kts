@@ -1,7 +1,9 @@
 plugins {
     id("fabric-loom")
-    val kotlinVersion: String by System.getProperties()
-    kotlin("jvm").version(kotlinVersion)
+    //val kotlinVersion: String by System.getProperties()
+    kotlin("jvm").version("1.6.0")
+    `maven-publish`
+    java
 }
 base {
     val archivesBaseName: String by project
@@ -38,10 +40,10 @@ dependencies {
     val originsVersion: String by project
     modRuntime("com.github.apace100:origins-fabric:${originsVersion}")
     val geckoLibVersion: String by project
-    modImplementation("software.bernie.geckolib:geckolib-fabric-1.17:${geckoLibVersion}:dev")
+    modImplementation("software.bernie.geckolib:geckolib-fabric-1.18:${geckoLibVersion}")
 }
 tasks {
-    val javaVersion = JavaVersion.VERSION_16
+    val javaVersion = JavaVersion.VERSION_17
     withType<JavaCompile> {
         options.encoding = "UTF-8"
         sourceCompatibility = javaVersion.toString()

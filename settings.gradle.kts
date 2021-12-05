@@ -6,7 +6,7 @@ pluginManagement {
     plugins {
         val loomVersion: String by settings
         id("fabric-loom").version(loomVersion)
-        val kotlinVersion: String by System.getProperties()
-        kotlin("jvm").version(kotlinVersion)
+        //val kotlinVersion: String by System.getProperties()
+        kotlin("jvm").version("1.6.0")
     }
 }
