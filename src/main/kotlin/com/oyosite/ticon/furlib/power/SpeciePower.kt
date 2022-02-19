@@ -1,6 +1,9 @@
 package com.oyosite.ticon.furlib.power
 
 import com.oyosite.ticon.furlib.client.TexController
+import com.oyosite.ticon.furlib.util.BoneVisibilityCache
+import com.oyosite.ticon.furlib.util.VisibilityData
+import com.oyosite.ticon.furlib.util.VisibilityDataCondition
 import io.github.apace100.apoli.power.Power
 import io.github.apace100.apoli.power.PowerType
 import net.minecraft.entity.LivingEntity
@@ -11,7 +14,7 @@ import software.bernie.geckolib3.core.IAnimatable
 import software.bernie.geckolib3.core.manager.AnimationData
 import software.bernie.geckolib3.core.manager.AnimationFactory
 
-class SpeciePower(t:PowerType<*>, entity:LivingEntity, private val id:Identifier, var texControllers: List<TexController>):Power(t, entity),IAnimatable {
+class SpeciePower(t:PowerType<*>, entity:LivingEntity, private val id:Identifier, var texControllers: List<TexController>, val visibilityCondition: VisibilityDataCondition):Power(t, entity),IAnimatable {
     private val animFactory = AnimationFactory(this)
     val currentTexIndex = 0
     override fun registerControllers(animData: AnimationData?) {}
@@ -19,6 +22,7 @@ class SpeciePower(t:PowerType<*>, entity:LivingEntity, private val id:Identifier
     fun getModelLocation():Identifier{return id}
     fun getTextureLocation(t:Int = currentTexIndex):Identifier{return texControllers[t].tex}
     fun getAnimFileLocation():Identifier?{return null}
+
     override fun fromTag(nbt: NbtElement?) {
         if (nbt !is NbtCompound || !nbt.contains("tex")) return
         val tex = nbt.getCompound("tex")
@@ -32,4 +36,5 @@ class SpeciePower(t:PowerType<*>, entity:LivingEntity, private val id:Identifier
         nbt.put("tex",tex)
         return nbt
     }
+    val boneVisibilityCache = BoneVisibilityCache(visibilityCondition)
 }

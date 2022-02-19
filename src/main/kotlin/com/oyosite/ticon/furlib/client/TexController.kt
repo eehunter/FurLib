@@ -6,7 +6,8 @@ import io.github.apace100.calio.data.SerializableData as SD
 import io.github.apace100.calio.data.SerializableData.Instance as SDI
 
 @Suppress("UNCHECKED_CAST")
-class TexController(val tex:Identifier, val col:TexColor, val illuminate:Boolean = false, val alias:String){
+class TexController(val tex:Identifier, val col:TexColor, val illuminate:Boolean = false, alias:String?){
+    val alias = alias?:tex.toString()
     constructor(data:SDI) : this(
         data.getId("tex"),
         data.get("col") as TexColor,
