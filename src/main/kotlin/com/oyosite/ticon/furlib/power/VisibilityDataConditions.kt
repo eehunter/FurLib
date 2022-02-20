@@ -31,6 +31,15 @@ object VisibilityDataConditions {
     val SDKotlin.literals get() = this("literals", STRINGS, listOf())
     fun <T> List<T>.anyOrAll(allMatch: Boolean, test: (T)->Boolean): Boolean {return if(allMatch) all(test) else any(test)}
     operator fun invoke(){
+        registerStr("constant", SDKotlin()("value", BOOLEAN)) {data, _ -> data.getBoolean("value")}
+        registerStr("and", SDKotlin()("conditions", STRING_CONDITIONS, NULL_STRING_CONDITIONS).literals) {data, str ->data.get<List<ApoliCondition<String>>>("conditions").all{it.test(str)} && data.get<List<String>>("literals").all(str::equals)}
+        registerStr("or", SDKotlin()("conditions", STRING_CONDITIONS, NULL_STRING_CONDITIONS).literals) {data, str -> data.get<List<ApoliCondition<String>>>("conditions").any{it.test(str)} || data.get<List<String>>("literals").any(str::equals)}
+        registerStr("literal", SDKotlin()("value", STRING)) {data, str -> str == data.getString("value")}
+        
+        registerSF("hand", SDKotlin()("main_hand", BOOLEAN, true), {sdi:SDI, sf:SlotFinder -> sdi["main_hand"] = sf.data as Boolean}) { sdi: SDI -> handSlotFinder(sdi.getBoolean("main_hand"))}
+        registerSF("armor", SDKotlin()("slot", INT, -1), {sdi, sf -> sdi["slot"] = sf.data as Int}) {sdi -> SlotFinder(this.registryId, { e -> if(data as Int in 0..3) listOf(e.armorItems.elementAtOrElse(data) { ItemStack.EMPTY }) else listOf(*e.armorItems.toList().toTypedArray()) }, sdi.getInt("slot")) }
+        registerSF("player_inv", SDKotlin()("slot", INT, -1), {sdi, sf -> sdi["slot"] = sf.data as Int}) {sdi -> SlotFinder(this.registryId, { e -> if (e is PlayerEntity) if (data as Int in 0 until e.inventory.size()) listOf(e.inventory.getStack(data as Int)) else listOf(*(0 until e.inventory.size()).map{e.inventory.getStack(it)}.toTypedArray()) else listOf(ItemStack.EMPTY)}, sdi.getInt("slot")) }
+
         register("constant", SDKotlin()("value", BOOLEAN)) {data, _ -> data.getBoolean("value")}
         register("and", SDKotlin()("conditions", VISIBILITY_DATA_CONDITIONS)) {data, vis -> data.get<List<VisibilityDataCondition>>("conditions").all{it.test(vis)}}
         register("or", SDKotlin()("conditions", VISIBILITY_DATA_CONDITIONS)) {data, vis -> data.get<List<VisibilityDataCondition>>("conditions").any{it.test(vis)}}
@@ -52,14 +61,8 @@ object VisibilityDataConditions {
         ) {data, vis -> data.inverted xor ((!data.isPresent("tex")||data.get<ApoliCondition<String>>("tex").test(vis.tex))&&(!data.isPresent("texLiteral")||data.get<List<String>>("texLiteral").any(vis.tex::equals))
         ) }*/
 
-        registerStr("constant", SDKotlin()("value", BOOLEAN)) {data, _ -> data.getBoolean("value")}
-        registerStr("and", SDKotlin()("conditions", STRING_CONDITIONS, NULL_STRING_CONDITIONS).literals) {data, str ->data.get<List<ApoliCondition<String>>>("conditions").all{it.test(str)} && data.get<List<String>>("literals").all(str::equals)}
-        registerStr("or", SDKotlin()("conditions", STRING_CONDITIONS, NULL_STRING_CONDITIONS).literals) {data, str -> data.get<List<ApoliCondition<String>>>("conditions").any{it.test(str)} || data.get<List<String>>("literals").any(str::equals)}
-        registerStr("literal", SDKotlin()("value", STRING)) {data, str -> str == data.getString("value")}
 
-        registerSF("hand", SDKotlin()("main_hand", BOOLEAN, true), {sdi:SDI, sf:SlotFinder -> sdi["main_hand"] = sf.data as Boolean}) { sdi: SDI -> handSlotFinder(sdi.getBoolean("main_hand"))}
-        registerSF("armor", SDKotlin()("slot", INT, -1), {sdi, sf -> sdi["slot"] = sf.data as Int}) {sdi -> SlotFinder(this.registryId, { e -> if(data as Int in 0..3) listOf(e.armorItems.elementAtOrElse(data) { ItemStack.EMPTY }) else listOf(*e.armorItems.toList().toTypedArray()) }, sdi.getInt("slot")) }
-        registerSF("player_inv", SDKotlin()("slot", INT, -1), {sdi, sf -> sdi["slot"] = sf.data as Int}) {sdi -> SlotFinder(this.registryId, { e -> if (e is PlayerEntity) if (data as Int in 0 until e.inventory.size()) listOf(e.inventory.getStack(data as Int)) else listOf(*(0 until e.inventory.size()).map{e.inventory.getStack(it)}.toTypedArray()) else listOf(ItemStack.EMPTY)}, sdi.getInt("slot")) }
+
     }
     private fun registerSF(id: String, dat: SerializableData, write: SlotFinderFactory.(SDI, SlotFinder) -> Unit, read: SlotFinderFactory.(SDI) -> SlotFinder) = registerSF(Identifier("$MODID:$id"), dat, write, read)
     private fun registerSF(id: Identifier, dat: SerializableData, write: SlotFinderFactory.(SDI, SlotFinder) -> Unit, read: SlotFinderFactory.(SDI) -> SlotFinder) = Registry.register(MiscRegistries.SLOT_FINDER, id, SlotFinderFactory(id, dat, write, read))

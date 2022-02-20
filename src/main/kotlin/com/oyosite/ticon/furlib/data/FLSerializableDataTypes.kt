@@ -28,8 +28,9 @@ object FLSerializableDataTypes {
     val STRINGS: SDT<List<String>> = SDT.list(SDTs.STRING)
     val SLOT_FINDER = SDT(SlotFinder::class.java, {buf, sf -> buf.writeIdentifier(sf.factory);MiscRegistries.SLOT_FINDER[sf.factory]!!.write(buf, sf)}, {buf -> MiscRegistries.SLOT_FINDER[buf.readIdentifier()]!!.read(buf)}) {json: JsonElement -> MiscRegistries.SLOT_FINDER[Identifier(json.asJsonObject["type"].asString)]!!.read(json.asJsonObject)}
 
-    val NULL_STRING_CONDITION = FLConditionTypes.STRING.read("{type:\"$MODID:constant\",value:true}")
-    val NULL_STRING_CONDITIONS = STRING_CONDITIONS.read("[{type:\"$MODID:constant\",value:true}]")
+    //lazy delegate may seem pointless, but prevents read from getting called for furlib:constant before that condition type is registered
+    val NULL_STRING_CONDITION by lazy {FLConditionTypes.STRING.read("{type:\"$MODID:constant\",value:true}")}
+    val NULL_STRING_CONDITIONS by lazy {STRING_CONDITIONS.read("[{type:\"$MODID:constant\",value:true}]")}
 
     fun <T> condition(type: ConditionType<T>) = ApoliDataTypes.condition(conditionClassOf(), type)
 }

@@ -11,8 +11,8 @@ object FurLib: ModInitializer {
     const val MODID = "furlib"
     override fun onInitialize() {
         GeckoLib.initialize()
-        FLPowerFactories()
         VisibilityDataConditions()
+        FLPowerFactories()
         CommandRegistrationCallback.EVENT.register(Commands)
     }
     fun identifier(id:String):Identifier{ return Identifier(MODID,id) }
