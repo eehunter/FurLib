@@ -13,7 +13,7 @@ val modVersion: String by project
 version = modVersion
 val mavenGroup: String by project
 group = mavenGroup
-minecraft {}
+//minecraft {}
 repositories {
     maven { setUrl("https://ladysnake.jfrog.io/artifactory/mods");name = "Ladysnake Libs" }
     maven { setUrl("https://maven.cafeteria.dev");content { includeGroup("net.adriantodt.fabricmc") } }
