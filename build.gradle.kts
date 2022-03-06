@@ -25,8 +25,7 @@ repositories {
 }
 dependencies {
     fun ExternalModuleDependency.excludeFabricApi(){
-        exclude("net.fabricmc", "fabric-loader")
-        exclude("net.fabricmc.fabric-api", "fabric=api")
+        exclude("net.fabricmc")
     }
     val minecraftVersion: String by project
     minecraft("com.mojang:minecraft:$minecraftVersion")
@@ -44,7 +43,7 @@ dependencies {
     val originsVersion: String by project
     modRuntimeOnly("com.github.apace100:origins-fabric:${originsVersion}"){excludeFabricApi()}
     val geckoLibVersion: String by project
-    modImplementation("software.bernie.geckolib:geckolib-fabric-1.18:${geckoLibVersion}")
+    modImplementation("software.bernie.geckolib:geckolib-fabric-1.18:${geckoLibVersion}"){excludeFabricApi()}
 }
 tasks {
     val javaVersion = JavaVersion.VERSION_17
