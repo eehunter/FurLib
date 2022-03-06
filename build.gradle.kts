@@ -24,6 +24,10 @@ repositories {
     maven { setUrl("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/") }
 }
 dependencies {
+    fun ExternalModuleDependency.excludeFabricApi(){
+        exclude("net.fabricmc", "fabric-loader")
+        exclude("net.fabricmc.fabric-api", "fabric=api")
+    }
     val minecraftVersion: String by project
     minecraft("com.mojang:minecraft:$minecraftVersion")
     val yarnMappings: String by project
@@ -35,10 +39,10 @@ dependencies {
     val fabricKotlinVersion: String by project
     modImplementation("net.fabricmc:fabric-language-kotlin:$fabricKotlinVersion")
     val apoliVersion: String by project
-    modImplementation("com.github.apace100:apoli:${apoliVersion}")
-    include("com.github.apace100:apoli:${apoliVersion}")
+    modImplementation("com.github.apace100:apoli:${apoliVersion}"){excludeFabricApi()}
+    include("com.github.apace100:apoli:${apoliVersion}"){excludeFabricApi()}
     val originsVersion: String by project
-    modRuntimeOnly("com.github.apace100:origins-fabric:${originsVersion}")
+    modRuntimeOnly("com.github.apace100:origins-fabric:${originsVersion}"){excludeFabricApi()}
     val geckoLibVersion: String by project
     modImplementation("software.bernie.geckolib:geckolib-fabric-1.18:${geckoLibVersion}")
 }
