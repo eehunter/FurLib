@@ -40,7 +40,7 @@ dependencies {
     val originsVersion: String by project
     modRuntimeOnly("com.github.apace100:origins-fabric:${originsVersion}")
     val geckoLibVersion: String by project
-    modImplementation("software.bernie.geckolib:geckolib-fabric-1.18.2:${geckoLibVersion}")
+    modImplementation("software.bernie.geckolib:geckolib-fabric-1.18:${geckoLibVersion}")
 }
 tasks {
     val javaVersion = JavaVersion.VERSION_17
