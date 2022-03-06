@@ -53,12 +53,28 @@ tasks {
         targetCompatibility = javaVersion.toString()
         options.release.set(javaVersion.toString().toInt())
     }
-    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions { jvmTarget = javaVersion.toString() }
-        sourceCompatibility = javaVersion.toString()
-        targetCompatibility = javaVersion.toString()
-    }
     jar { from("LICENSE") { rename { "${it}_${base.archivesName}" } } }
+    publishing {
+        publications {
+            create<MavenPublication>("mavenJava") {
+                artifact(remapJar) {
+                    builtBy(remapJar)
+                }
+                artifact(kotlinSourcesJar) {
+                    builtBy(remapSourcesJar)
+                }
+            }
+        }
+
+        // select the repositories you want to publish to
+        repositories {
+            // uncomment to publish to the local maven
+            // mavenLocal()
+        }
+    }
+    compileKotlin {
+        kotlinOptions.jvmTarget = "17"
+    }
     processResources {
         inputs.property("version", project.version)
         filesMatching("fabric.mod.json") { expand(mutableMapOf("version" to project.version)) }
