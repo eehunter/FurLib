@@ -58,7 +58,7 @@ tasks {
         sourceCompatibility = javaVersion.toString()
         targetCompatibility = javaVersion.toString()
     }
-    jar { from("LICENSE") { /*rename { "${it}_${base.archivesName}" } }*/ }
+    jar { from("LICENSE") /*{ rename { "${it}_${base.archivesName}" } }*/ }
     publishing {
         publications {
             create<MavenPublication>("mavenJava") {
