@@ -74,7 +74,7 @@ tasks {
         // select the repositories you want to publish to
         repositories {
             // uncomment to publish to the local maven
-            // mavenLocal()
+            mavenLocal()
         }
     }
 
