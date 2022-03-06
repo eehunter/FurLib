@@ -41,7 +41,7 @@ dependencies {
     modImplementation("com.github.apace100:apoli:${apoliVersion}"){excludeFabricApi()}
     include("com.github.apace100:apoli:${apoliVersion}"){excludeFabricApi()}
     val originsVersion: String by project
-    modRuntimeOnly("com.github.apace100:origins-fabric:${originsVersion}"){excludeFabricApi()}
+    //modRuntimeOnly("com.github.apace100:origins-fabric:${originsVersion}"){excludeFabricApi()}
     val geckoLibVersion: String by project
     modImplementation("software.bernie.geckolib:geckolib-fabric-1.18:${geckoLibVersion}"){excludeFabricApi()}
 }
