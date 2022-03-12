@@ -1,6 +1,5 @@
 package com.oyosite.ticon.furlib.power
 
-import com.google.gson.JsonElement
 import com.oyosite.ticon.furlib.FurLib.MODID
 import com.oyosite.ticon.furlib.data.FLSerializableDataTypes.NULL_STRING_CONDITION
 import com.oyosite.ticon.furlib.data.FLSerializableDataTypes.NULL_STRING_CONDITIONS
@@ -12,6 +11,7 @@ import com.oyosite.ticon.furlib.data.SDKotlin
 import com.oyosite.ticon.furlib.data.SlotFinder
 import com.oyosite.ticon.furlib.data.SlotFinderFactory
 import com.oyosite.ticon.furlib.util.*
+import com.oyosite.ticon.furlib.util.VisibilityData.Companion.biEntity
 import io.github.apace100.apoli.data.ApoliDataTypes
 import io.github.apace100.apoli.power.factory.condition.ConditionFactory
 import io.github.apace100.calio.data.SerializableData

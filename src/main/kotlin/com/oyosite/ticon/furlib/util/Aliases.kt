@@ -11,5 +11,5 @@ typealias BiEntityCondition = ApoliCondition<BiEntity>
 //typealias BiEntityBone = MCPair<String,BiEntity>
 typealias VisibilityDataCondition = ApoliCondition<VisibilityData>
 class VisibilityData(val tex: String, val bone: String, val target: Entity, val viewer: Entity){
-    val biEntity get() = MCPair(target, viewer)
+    companion object{val VisibilityData.biEntity get() = MCPair(target, viewer)}
 }
