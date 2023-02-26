@@ -41,10 +41,21 @@ class SpecieFeatureRenderer<E:LivingEntity> : BipedEntityModel<E>(getModelData(D
     private var currentTexture: String = ""
 
     private var gmp = GMP()
+    var rtb: VertexConsumerProvider? = null
+
+    override fun getCurrentRTB(): VertexConsumerProvider? = rtb
+    override fun setCurrentRTB(bufferSource: VertexConsumerProvider?) { rtb = bufferSource }
+
+
     override fun getGeoModelProvider(): GeoModelProvider<SpeciePower> { return gmp }
     override fun getTextureLocation(instance: SpeciePower?): Identifier { return FurLib.identifier("none") }
 
     private var boneVis: ((String)->Boolean)? = null
+
+    override fun renderEarly(animatable: SpeciePower?, poseStack: MatrixStack?, partialTick: Float, bufferSource: VertexConsumerProvider?, buffer: VertexConsumer?, packedLight: Int, packedOverlayIn: Int, red: Float, green: Float, blue: Float, alpha: Float) {
+        super.renderEarly(animatable, poseStack, partialTick, bufferSource, buffer, packedLight, packedOverlayIn, red, green, blue, alpha)
+        rtb = bufferSource
+    }
 
     fun render(stack: MatrixStack,vcp: VertexConsumerProvider,light: Int,entity:E,ctxModel:BipedEntityModel<E>,sp: SpeciePower, limbAngle: Float, limbDistance: Float, tickDelta: Float, boneVis: ((String)->Boolean)?) {
         stack.push()
@@ -52,7 +63,7 @@ class SpecieFeatureRenderer<E:LivingEntity> : BipedEntityModel<E>(getModelData(D
         stack.scale(-1.0f, -1.0f, 1.0f)
         val model: GeoModel = gmp.getModel(sp.getModelLocation())
         val animEvent:AnimationEvent<SpeciePower> = AnimationEvent(sp,limbAngle,limbDistance,tickDelta,false,listOf())
-        gmp.setLivingAnimations(sp, this.getUniqueID(sp), animEvent)
+        gmp.setCustomAnimations(sp, this.getInstanceId(sp), animEvent)
         this.ctxModel = ctxModel
         this.entity = entity
         //fitToBiped(ctxModel,sp)

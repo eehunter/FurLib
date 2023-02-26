@@ -1,7 +1,7 @@
 plugins {
-    id("fabric-loom")
     //val kotlinVersion: String by System.getProperties()
-    kotlin("jvm").version("1.6.10")
+    kotlin("jvm").version("1.8.10")
+    id("fabric-loom")
     `maven-publish`
     java
 }
@@ -41,25 +41,27 @@ dependencies {
     modImplementation("com.github.apace100:apoli:${apoliVersion}"){excludeFabricApi()}
     include("com.github.apace100:apoli:${apoliVersion}"){excludeFabricApi()}
     val originsVersion: String by project
-    //modRuntimeOnly("com.github.apace100:origins-fabric:${originsVersion}"){excludeFabricApi()}
+    modRuntimeOnly("com.github.apace100:origins-fabric:${originsVersion}"){excludeFabricApi()}
     val geckoLibVersion: String by project
     modImplementation("software.bernie.geckolib:geckolib-fabric-1.18:${geckoLibVersion}"){excludeFabricApi()}
 }
 tasks {
     val javaVersion = JavaVersion.VERSION_17
+
+
     withType<JavaCompile> {
         options.encoding = "UTF-8"
-        sourceCompatibility = javaVersion.toString()
-        targetCompatibility = javaVersion.toString()
+        //sourceCompatibility = javaVersion.toString()
+        //targetCompatibility = javaVersion.toString()
         options.release.set(javaVersion.toString().toInt())
     }
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         kotlinOptions { jvmTarget = javaVersion.toString() }
-        sourceCompatibility = javaVersion.toString()
-        targetCompatibility = javaVersion.toString()
+        //sourceCompatibility = javaVersion.toString()
+        //targetCompatibility = javaVersion.toString()
     }
     jar { from("LICENSE") /*{ rename { "${it}_${base.archivesName}" } }*/ }
-    publishing {
+    /*publishing {
         publications {
             create<MavenPublication>("mavenJava") {
                 artifact(remapJar) {
@@ -76,7 +78,7 @@ tasks {
             // uncomment to publish to the local maven
             mavenLocal()
         }
-    }
+    }*/
 
     processResources {
         inputs.property("version", project.version)

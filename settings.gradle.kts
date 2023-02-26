@@ -7,6 +7,6 @@ pluginManagement {
         val loomVersion: String by settings
         id("fabric-loom").version(loomVersion)
         //val kotlinVersion: String by System.getProperties()
-        kotlin("jvm").version("1.6.10")
+        kotlin("jvm").version("1.8.10")
     }
 }
