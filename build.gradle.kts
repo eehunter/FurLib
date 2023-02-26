@@ -61,7 +61,7 @@ tasks {
         //targetCompatibility = javaVersion.toString()
     }
     jar { from("LICENSE") /*{ rename { "${it}_${base.archivesName}" } }*/ }
-    /*publishing {
+    publishing {
         publications {
             create<MavenPublication>("mavenJava") {
                 artifact(remapJar) {
@@ -78,7 +78,7 @@ tasks {
             // uncomment to publish to the local maven
             mavenLocal()
         }
-    }*/
+    }
 
     processResources {
         inputs.property("version", project.version)
